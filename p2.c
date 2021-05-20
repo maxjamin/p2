@@ -14,8 +14,7 @@ int main(int argc, char * const argv[])
 	pid = fork();
 
 	int p_id = getpid();
-	int process_id =0;
-	int status;
+	int status = 0;
 
 	if (pid < 0)
 	{
@@ -29,15 +28,25 @@ int main(int argc, char * const argv[])
 		else if(argc > 1)
 		{
 			if(argc == 2)
+			{
 				printf("CHILD stared. One argument provided. Calling execlp, never to return.\n");
-			else
-				printf("CHILD stared. More than one argument provided. Calling execlp, never to return.\n");
-
-			if(execvp(argv[1], argv+1) == -1);
-			{	
-				perror("execve");
-        		exit(1);
+				if(execlp(argv[1], argv[1], NULL) == -1);
+				{	
+					perror("execve");
+        			exit(1);
+        		}
         	}
+        	else
+        	{
+				printf("CHILD stared. More than one argument provided. Calling execvp, never to return.\n");
+				if(execvp(argv[1], argv+1) == -1);
+				{	
+					perror("execve");
+	        		exit(1);
+	        	}
+	        	
+			}
+
     	}
 		exit(0);
 	}
